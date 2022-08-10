@@ -69,7 +69,6 @@ module "aws_tgw_multi_node_existing_subnets" {
   f5xc_aws_cred                   = "aws-01"
   f5xc_aws_default_ce_sw_version  = true
   f5xc_aws_default_ce_os_version  = true
-  f5xc_aws_tgw_az_name            = "us-east-2a"
   f5xc_aws_tgw_name               = format("%s-tgw-multi-node-existing-subnets-%s", var.project_prefix, var.project_suffix)
   f5xc_aws_tgw_no_worker_nodes    = false
   f5xc_aws_tgw_total_worker_nodes = 2
