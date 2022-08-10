@@ -121,7 +121,7 @@ module "aws_tgw_multi_node_new_tgw_new_subnets_direct_connect" {
   f5xc_aws_tgw_direct_connect_disabled      = false
   f5xc_aws_tgw_cloud_aggregated_prefix      = ["10.15.250.0/21"]
   f5xc_aws_tgw_dc_connect_aggregated_prefix = ["10.16.250.0/21"]
-  f5xc_aws_tgw_manual_gw                    = true
+  f5xc_aws_tgw_direct_connect_manual_gw     = true
   f5xc_aws_tgw_az_nodes                     = {
     node0 : {
       f5xc_aws_tgw_workload_subnet = "192.168.168.0/26", f5xc_aws_tgw_inside_subnet = "192.168.168.64/26",
