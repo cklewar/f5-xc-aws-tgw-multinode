@@ -99,7 +99,47 @@ module "aws_tgw_multi_node_existing_subnets" {
   public_ssh_key = "ssh-rsa xyz"
 }
 
-module "aws_tgw_multi_node_existing_tgw" {
+module "aws_tgw_multi_node_existing_tgw_new_subnets" {
+  source                          = "./modules/f5xc/site/aws/tgw"
+  f5xc_api_p12_file               = var.f5xc_api_p12_file
+  f5xc_api_url                    = var.f5xc_api_url
+  f5xc_namespace                  = "system"
+  f5xc_tenant                     = var.f5xc_tenant
+  f5xc_aws_region                 = "us-east-2"
+  f5xc_aws_cred                   = "aws-01"
+  f5xc_aws_default_ce_sw_version  = true
+  f5xc_aws_default_ce_os_version  = true
+  f5xc_aws_tgw_name               = format("%s-tgw-multi-node-new-subnets-%s", var.project_prefix, var.project_suffix)
+  f5xc_aws_tgw_no_worker_nodes    = false
+  f5xc_aws_tgw_total_worker_nodes = 2
+  f5xc_aws_tgw_primary_ipv4       = "192.168.168.0/21"
+  f5xc_aws_tgw_id                 = "tgw_id_abc"
+  f5xc_aws_tgw_asn                = 63200
+  f5xc_aws_tgw_site_asn           = 65400
+  f5xc_aws_tgw_az_nodes           = {
+    node0 : {
+      f5xc_aws_tgw_workload_subnet = "192.168.168.0/26", f5xc_aws_tgw_inside_subnet = "192.168.168.64/26",
+      f5xc_aws_tgw_outside_subnet  = "192.168.168.128/26", f5xc_aws_tgw_az_name = "us-east-2a"
+    },
+    node1 : {
+      f5xc_aws_tgw_workload_subnet = "192.168.169.0/26", f5xc_aws_tgw_inside_subnet = "192.168.169.64/26",
+      f5xc_aws_tgw_outside_subnet  = "192.168.169.128/26", f5xc_aws_tgw_az_name = "us-east-2a"
+    },
+    node2 : {
+      f5xc_aws_tgw_workload_subnet = "192.168.170.0/26", f5xc_aws_tgw_inside_subnet = "192.168.170.64/26",
+      f5xc_aws_tgw_outside_subnet  = "192.168.170.128/26", f5xc_aws_tgw_az_name = "us-east-2a"
+    }
+  }
+  f5xc_aws_tgw_vpc_attach_label_deploy = "vpc_attachment_label"
+  custom_tags                          = {
+    Deployment = "aws-tgw-multi-node-01"
+    TTL        = -1
+    Owner      = "c.klewar@f5.com"
+  }
+  public_ssh_key = "ssh-rsa xyz"
+}
+
+module "aws_tgw_multi_node_existing_tgw_existing_subnets" {
   source                          = "./modules/f5xc/site/aws/tgw"
   f5xc_api_p12_file               = var.f5xc_api_p12_file
   f5xc_api_url                    = var.f5xc_api_url
@@ -112,6 +152,7 @@ module "aws_tgw_multi_node_existing_tgw" {
   f5xc_aws_tgw_name               = format("%s-tgw-multi-node-existing-tgw-%s", var.project_prefix, var.project_suffix)
   f5xc_aws_tgw_no_worker_nodes    = false
   f5xc_aws_tgw_total_worker_nodes = 2
+  f5xc_aws_vpc_id                 = "vpc_id_abc"
   f5xc_aws_tgw_id                 = "tgw_id_abc"
   f5xc_aws_tgw_asn                = 63200
   f5xc_aws_tgw_site_asn           = 65400
