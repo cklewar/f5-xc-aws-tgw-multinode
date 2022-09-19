@@ -15,11 +15,6 @@ variable "f5xc_namespace" {
   default = "system"
 }
 
-variable "f5xc_azure_region" {
-  type    = string
-  default = "eastus"
-}
-
 variable "f5xc_api_p12_file" {
   type    = string
 }
