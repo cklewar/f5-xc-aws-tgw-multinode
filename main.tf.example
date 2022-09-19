@@ -165,12 +165,12 @@ module "aws_subnet_tgw_multi_node_new_subnets" {
       }
     },
     {
-      name                    = local.node2_tgw_multi_node_outside_subnet
+      name                    = local.node2_tgw_multi_node_workload_subnet
       map_public_ip_on_launch = true
       cidr_block              = "172.16.42.128/26"
       availability_zone       = "us-east-2a"
       custom_tags             = {
-        Name  = local.node2_tgw_multi_node_outside_subnet
+        Name  = local.node2_tgw_multi_node_workload_subnet
         Owner = "c.klewar@f5.com"
       }
     }
