@@ -52,15 +52,15 @@ variable "f5xc_aws_region" {
 }
 
 locals {
-  node0_tgw_multi_node_inside_subnet   = format("%s-aws-subnet-node0-tgw-multi-node-inside-%s", var.project_prefix, var.project_suffix)
-  node0_tgw_multi_node_outside_subnet  = format("%s-aws-subnet-node0-tgw-multi-node-outside-%s", var.project_prefix, var.project_suffix)
-  node0_tgw_multi_node_workload_subnet = format("%s-aws-subnet-node0-tgw-multi-node-workload-%s", var.project_prefix, var.project_suffix)
-  node1_tgw_multi_node_inside_subnet   = format("%s-aws-subnet-node1-tgw-multi-node-inside-%s", var.project_prefix, var.project_suffix)
-  node1_tgw_multi_node_outside_subnet  = format("%s-aws-subnet-node1-tgw-multi-node-outside-%s", var.project_prefix, var.project_suffix)
-  node1_tgw_multi_node_workload_subnet = format("%s-aws-subnet-node1-tgw-multi-node-workload-%s", var.project_prefix, var.project_suffix)
-  node2_tgw_multi_node_inside_subnet   = format("%s-aws-subnet-node2-tgw-multi-node-inside-%s", var.project_prefix, var.project_suffix)
-  node2_tgw_multi_node_outside_subnet  = format("%s-aws-subnet-node2-tgw-multi-node-outside-%s", var.project_prefix, var.project_suffix)
-  node2_tgw_multi_node_workload_subnet = format("%s-aws-subnet-node2-tgw-multi-node-workload-%s", var.project_prefix, var.project_suffix)
+  node0_tgw_multi_node_inside_subnet   = format("%s-aws-subnet-n0-tgw-m-node-inside-%s", var.project_prefix, var.project_suffix)
+  node0_tgw_multi_node_outside_subnet  = format("%s-aws-subnet-n0-tgw-m-node-outside-%s", var.project_prefix, var.project_suffix)
+  node0_tgw_multi_node_workload_subnet = format("%s-aws-subnet-n0-tgw-m-node-workload-%s", var.project_prefix, var.project_suffix)
+  node1_tgw_multi_node_inside_subnet   = format("%s-aws-subnet-n1-tgw-m-node-inside-%s", var.project_prefix, var.project_suffix)
+  node1_tgw_multi_node_outside_subnet  = format("%s-aws-subnet-n1-tgw-m-node-outside-%s", var.project_prefix, var.project_suffix)
+  node1_tgw_multi_node_workload_subnet = format("%s-aws-subnet-n1-tgw-m-node-workload-%s", var.project_prefix, var.project_suffix)
+  node2_tgw_multi_node_inside_subnet   = format("%s-aws-subnet-n2-tgw-m-node-inside-%s", var.project_prefix, var.project_suffix)
+  node2_tgw_multi_node_outside_subnet  = format("%s-aws-subnet-n2-tgw-m-node-outside-%s", var.project_prefix, var.project_suffix)
+  node2_tgw_multi_node_workload_subnet = format("%s-aws-subnet-n2-tgw-m-node-workload-%s", var.project_prefix, var.project_suffix)
 }
 
 module "aws_vpc_tgw_multi_node_new_subnets" {
@@ -194,7 +194,7 @@ module "aws_tgw_multi_node_new_subnets" {
   f5xc_aws_cred                   = var.f5xc_aws_cred
   f5xc_aws_default_ce_sw_version  = true
   f5xc_aws_default_ce_os_version  = true
-  f5xc_aws_tgw_name               = format("%s-tgw-multi-node-new-subnets-%s", var.project_prefix, var.project_suffix)
+  f5xc_aws_tgw_name               = format("%s-tgw-m-node-new-sub-%s", var.project_prefix, var.project_suffix)
   f5xc_aws_tgw_no_worker_nodes    = false
   f5xc_aws_tgw_total_worker_nodes = 2
   f5xc_aws_tgw_primary_ipv4       = "192.168.168.0/21"
@@ -214,7 +214,7 @@ module "aws_tgw_multi_node_new_subnets" {
   }
   f5xc_aws_tgw_vpc_attach_label_deploy = "vpc_attachment_label"
   custom_tags                          = {
-    Deployment = "aws-tgw-multi-node-01"
+    Deployment = format("%s-tgw-m-node-new-sub-%s", var.project_prefix, var.project_suffix)
     TTL        = -1
     Owner      = "c.klewar@f5.com"
   }
@@ -228,7 +228,7 @@ module "aws_tgw_multi_node_new_subnets_wait_for_online" {
   f5xc_api_url   = var.f5xc_api_url
   f5xc_namespace = var.f5xc_namespace
   f5xc_tenant    = var.f5xc_tenant
-  f5xc_site_name = format("%s-tgw-multi-node-new-subnets-%s", var.project_prefix, var.project_suffix)
+  f5xc_site_name = format("%s-tgw-m-node-new-sub-%s", var.project_prefix, var.project_suffix)
 }
 
 
@@ -242,7 +242,7 @@ module "aws_tgw_multi_node_existing_subnets" {
   f5xc_aws_cred                   = var.f5xc_aws_cred
   f5xc_aws_default_ce_sw_version  = true
   f5xc_aws_default_ce_os_version  = true
-  f5xc_aws_tgw_name               = format("%s-tgw-multi-node-existing-s-%s", var.project_prefix, var.project_suffix)
+  f5xc_aws_tgw_name               = format("%s-tgw-m-node-existing-s-%s", var.project_prefix, var.project_suffix)
   f5xc_aws_tgw_no_worker_nodes    = false
   f5xc_aws_tgw_total_worker_nodes = 2
   f5xc_aws_vpc_id                 = module.aws_vpc_tgw_multi_node_new_subnets.aws_vpc["id"]
@@ -265,7 +265,7 @@ module "aws_tgw_multi_node_existing_subnets" {
   }
   f5xc_aws_tgw_vpc_attach_label_deploy = "vpc_attachment_label"
   custom_tags                          = {
-    Deployment = "aws-tgw-multi-node-01"
+    Deployment = format("%s-tgw-mu-node-existing-s-%s", var.project_prefix, var.project_suffix)
     TTL        = -1
     Owner      = "c.klewar@f5.com"
   }
@@ -279,5 +279,5 @@ module "aws_tgw_multi_node_existing_subnets_wait_for_online" {
   f5xc_api_url   = var.f5xc_api_url
   f5xc_namespace = var.f5xc_namespace
   f5xc_tenant    = var.f5xc_tenant
-  f5xc_site_name = format("%s-tgw-multi-node-existing-s-%s", var.project_prefix, var.project_suffix)
+  f5xc_site_name = format("%s-tgw-mu-node-existing-s-%s", var.project_prefix, var.project_suffix)
 }
