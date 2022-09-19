@@ -1,10 +1,18 @@
 terraform {
-  required_version = ">= 1.2.5"
+  required_version = ">= 1.2.7"
+
+  cloud {
+    organization = "cklewar"
+
+    workspaces {
+      name = "f5-xc-aws-tgw-module"
+    }
+  }
 
   required_providers {
     volterra = {
       source  = "volterraedge/volterra"
-      version = ">= 0.11.11"
+      version = ">= 0.11.12"
     }
 
     aws = {
