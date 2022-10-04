@@ -228,7 +228,6 @@ module "aws_tgw_multi_node_new_tgw_new_subnets_wait_for_online" {
   f5xc_site_name = format("%s-tgw-m-node-new-sub-%s", var.project_prefix, var.project_suffix)
 }
 
-
 /*module "aws_tgw_multi_node_existing_subnets" {
   source                          = "./modules/f5xc/site/aws/tgw"
   f5xc_api_p12_file               = var.f5xc_api_p12_file
