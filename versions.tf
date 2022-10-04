@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.2.7"
+  required_version = ">= 1.3.0"
 
   cloud {
     organization = "cklewar"
@@ -17,7 +17,7 @@ terraform {
 
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.20.1"
+      version = ">= 4.33.0"
     }
 
     local = ">= 2.2.3"

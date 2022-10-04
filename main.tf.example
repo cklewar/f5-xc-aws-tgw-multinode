@@ -10,11 +10,6 @@ variable "project_suffix" {
   default     = "01"
 }
 
-variable "f5xc_namespace" {
-  type    = string
-  default = "system"
-}
-
 variable "f5xc_api_p12_file" {
   type    = string
 }
@@ -23,17 +18,21 @@ variable "f5xc_api_url" {
   type    = string
 }
 
-variable "f5xc_tenant" {
-  type    = string
-}
-
 variable "f5xc_api_token" {
   type    = string
 }
 
-variable "public_ssh_key" {
+variable "f5xc_tenant" {
   type    = string
-  default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCXwW/k3C+Ny9U7JnIsiTmuCKQoieIe4prd/8yPVKiLkv6K6ZaZKn3yzqNr6HebWHrXgiUa9xs7BKg//mkPFeF18QYombyutIa43fN8O3LZu+BbgtN5jtMyr7oqlJ14m9EvgaWS6r/8afPNX2F9i31u3rRYTzJCEUAiQGb6YHUSH8HT8GbBokz53mua9aWgOZSmXtaDa1yCjiqqjQO80ZkAI1Tfqe0a9UNjerLpDW1uBoXt/3MbkjO/N/IK4BL7544z/aTfnumKlSdpi61ifRw8jPolDKuFN2LFWi6WtyP11lSAcQlp3g9Qh9cJzY6xqKkwFzC76D6TCi9bvIjLHr/FA/XffH3xwerjuBE0OgsyHr/o6SmCs5anjN1CHY4j9BfnswB1iXq/cnSRBuN0U4v80NwkWcwhgUgTxmVUejcFeQpa5AOsr0XLCW6jyeAk6U0CrwW/Auvc5MMzvAUh5IBnKWXQ8NITdF+304+n/wJq7jc1jfiRvn+rFEUfXAExV+k= c.klewar@HDY0C349LN"
+}
+
+variable "f5xc_namespace" {
+  type    = string
+  default = "system"
+}
+
+variable "ssh_public_key_file" {
+  type    = string
 }
 
 variable "f5xc_aws_cred" {
@@ -44,6 +43,11 @@ variable "f5xc_aws_cred" {
 variable "f5xc_aws_region" {
   type    = string
   default = "us-east-2"
+}
+
+provider "aws" {
+  region = "us-east-2"
+  alias  = "us-east-2"
 }
 
 locals {
@@ -68,11 +72,9 @@ module "aws_vpc_tgw_multi_node_new_subnets" {
     Name  = format("%s-aws-vpc-s-n-existing-sn-%s", var.project_prefix, var.project_suffix)
     Owner = "c.klewar@f5.com"
   }
-}
-
-provider "aws" {
-  region = "us-east-2"
-  alias  = "us-east-2"
+  providers = {
+    aws = aws.us-east-2
+  }
 }
 
 module "aws_subnet_tgw_multi_node_new_subnets" {
@@ -179,7 +181,7 @@ module "aws_subnet_tgw_multi_node_new_subnets" {
   }
 }
 
-module "aws_tgw_multi_node_new_subnets" {
+module "aws_tgw_multi_node_new_tgw_new_subnets" {
   source                          = "./modules/f5xc/site/aws/tgw"
   f5xc_api_p12_file               = var.f5xc_api_p12_file
   f5xc_api_url                    = var.f5xc_api_url
@@ -213,11 +215,11 @@ module "aws_tgw_multi_node_new_subnets" {
     TTL        = -1
     Owner      = "c.klewar@f5.com"
   }
-  public_ssh_key = var.public_ssh_key
+  public_ssh_key = var.ssh_public_key_file
 }
 
-module "aws_tgw_multi_node_new_subnets_wait_for_online" {
-  depends_on     = [module.aws_tgw_multi_node_new_subnets]
+module "aws_tgw_multi_node_new_tgw_new_subnets_wait_for_online" {
+  depends_on     = [module.aws_tgw_multi_node_new_tgw_new_subnets]
   source         = "./modules/f5xc/status/site"
   f5xc_api_token = var.f5xc_api_token
   f5xc_api_url   = var.f5xc_api_url
@@ -227,7 +229,7 @@ module "aws_tgw_multi_node_new_subnets_wait_for_online" {
 }
 
 
-module "aws_tgw_multi_node_existing_subnets" {
+/*module "aws_tgw_multi_node_existing_subnets" {
   source                          = "./modules/f5xc/site/aws/tgw"
   f5xc_api_p12_file               = var.f5xc_api_p12_file
   f5xc_api_url                    = var.f5xc_api_url
@@ -264,7 +266,7 @@ module "aws_tgw_multi_node_existing_subnets" {
     TTL        = -1
     Owner      = "c.klewar@f5.com"
   }
-  public_ssh_key = var.public_ssh_key
+  public_ssh_key = var.ssh_public_key_file
 }
 
 module "aws_tgw_multi_node_existing_subnets_wait_for_online" {
@@ -275,4 +277,4 @@ module "aws_tgw_multi_node_existing_subnets_wait_for_online" {
   f5xc_namespace = var.f5xc_namespace
   f5xc_tenant    = var.f5xc_tenant
   f5xc_site_name = format("%s-tgw-mu-node-existing-s-%s", var.project_prefix, var.project_suffix)
-}
+}*/
