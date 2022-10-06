@@ -45,6 +45,12 @@ variable "f5xc_aws_region" {
   default = "us-east-2"
 }
 
+provider "volterra" {
+  api_p12_file = var.f5xc_api_p12_file
+  url          = var.f5xc_api_url
+  alias        = "default"
+}
+
 provider "aws" {
   region = "us-east-2"
   alias  = "us-east-2"
@@ -183,8 +189,6 @@ module "aws_subnet_tgw_multi_node_new_subnets" {
 
 module "aws_tgw_multi_node_new_tgw_new_subnets" {
   source                          = "./modules/f5xc/site/aws/tgw"
-  f5xc_api_p12_file               = var.f5xc_api_p12_file
-  f5xc_api_url                    = var.f5xc_api_url
   f5xc_namespace                  = var.f5xc_namespace
   f5xc_tenant                     = var.f5xc_tenant
   f5xc_aws_region                 = var.f5xc_aws_region
@@ -209,13 +213,15 @@ module "aws_tgw_multi_node_new_tgw_new_subnets" {
       f5xc_aws_tgw_outside_subnet  = "192.168.170.128/26", f5xc_aws_tgw_az_name = "us-east-2a"
     }
   }
-  f5xc_aws_tgw_vpc_attach_label_deploy = "vpc_attachment_label"
-  custom_tags                          = {
+  custom_tags = {
     Deployment = format("%s-tgw-m-node-new-sub-%s", var.project_prefix, var.project_suffix)
     TTL        = -1
     Owner      = "c.klewar@f5.com"
   }
   public_ssh_key = var.ssh_public_key_file
+  providers      = {
+    volterra = volterra.default
+  }
 }
 
 module "aws_tgw_multi_node_new_tgw_new_subnets_wait_for_online" {
@@ -230,8 +236,6 @@ module "aws_tgw_multi_node_new_tgw_new_subnets_wait_for_online" {
 
 /*module "aws_tgw_multi_node_existing_subnets" {
   source                          = "./modules/f5xc/site/aws/tgw"
-  f5xc_api_p12_file               = var.f5xc_api_p12_file
-  f5xc_api_url                    = var.f5xc_api_url
   f5xc_namespace                  = var.f5xc_namespace
   f5xc_tenant                     = var.f5xc_tenant
   f5xc_aws_region                 = var.f5xc_aws_region
@@ -259,13 +263,15 @@ module "aws_tgw_multi_node_new_tgw_new_subnets_wait_for_online" {
       f5xc_aws_tgw_outside_existing_subnet_id  = module.aws_subnet_tgw_multi_node_new_subnets.aws_subnets[local.node2_tgw_multi_node_outside_subnet]["id"]
     }
   }
-  f5xc_aws_tgw_vpc_attach_label_deploy = "vpc_attachment_label"
   custom_tags                          = {
     Deployment = format("%s-tgw-mu-node-existing-s-%s", var.project_prefix, var.project_suffix)
     TTL        = -1
     Owner      = "c.klewar@f5.com"
   }
   public_ssh_key = var.ssh_public_key_file
+  providers      = {
+    volterra = volterra.default
+  }
 }
 
 module "aws_tgw_multi_node_existing_subnets_wait_for_online" {
