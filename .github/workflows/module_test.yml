@@ -1,4 +1,4 @@
-name: F5XC AWS TGW module
+name: F5XC AWS TGW Multinode module
 on: workflow_dispatch
 jobs:
   f5-xc-aws-tgw-module-validate:
