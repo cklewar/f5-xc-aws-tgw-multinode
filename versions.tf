@@ -5,7 +5,7 @@ terraform {
     organization = "cklewar"
 
     workspaces {
-      name = "f5-xc-aws-tgw-module"
+      name = "f5-xc-aws-tgw-multinode-module"
     }
   }
 

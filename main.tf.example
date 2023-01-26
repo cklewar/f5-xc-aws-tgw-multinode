@@ -77,15 +77,15 @@ provider "aws" {
 }
 
 locals {
-  node0_tgw_multi_node_inside_subnet   = format("%s-aws-subnet-n0-tgw-m-node-inside-%s", var.project_prefix, var.project_suffix)
-  node0_tgw_multi_node_outside_subnet  = format("%s-aws-subnet-n0-tgw-m-node-outside-%s", var.project_prefix, var.project_suffix)
-  node0_tgw_multi_node_workload_subnet = format("%s-aws-subnet-n0-tgw-m-node-workload-%s", var.project_prefix, var.project_suffix)
-  node1_tgw_multi_node_inside_subnet   = format("%s-aws-subnet-n1-tgw-m-node-inside-%s", var.project_prefix, var.project_suffix)
-  node1_tgw_multi_node_outside_subnet  = format("%s-aws-subnet-n1-tgw-m-node-outside-%s", var.project_prefix, var.project_suffix)
-  node1_tgw_multi_node_workload_subnet = format("%s-aws-subnet-n1-tgw-m-node-workload-%s", var.project_prefix, var.project_suffix)
-  node2_tgw_multi_node_inside_subnet   = format("%s-aws-subnet-n2-tgw-m-node-inside-%s", var.project_prefix, var.project_suffix)
-  node2_tgw_multi_node_outside_subnet  = format("%s-aws-subnet-n2-tgw-m-node-outside-%s", var.project_prefix, var.project_suffix)
-  node2_tgw_multi_node_workload_subnet = format("%s-aws-subnet-n2-tgw-m-node-workload-%s", var.project_prefix, var.project_suffix)
+  node0_tgw_multi_node_inside_subnet   = format("%s-snet-node0-mnic-inside-%s", var.project_prefix, var.project_suffix)
+  node0_tgw_multi_node_outside_subnet  = format("%s-snet-node0-mnic-outside-%s", var.project_prefix, var.project_suffix)
+  node0_tgw_multi_node_workload_subnet = format("%s-snet-node0-mnic-workload-%s", var.project_prefix, var.project_suffix)
+  node1_tgw_multi_node_inside_subnet   = format("%s-snet-node1-mnic-inside-%s", var.project_prefix, var.project_suffix)
+  node1_tgw_multi_node_outside_subnet  = format("%s-snet-node1-mnic-outside-%s", var.project_prefix, var.project_suffix)
+  node1_tgw_multi_node_workload_subnet = format("%s-snet-node1-mnic-workload-%s", var.project_prefix, var.project_suffix)
+  node2_tgw_multi_node_inside_subnet   = format("%s-snet-node2-mnic-inside-%s", var.project_prefix, var.project_suffix)
+  node2_tgw_multi_node_outside_subnet  = format("%s-snet-node2-mnic-outside-%s", var.project_prefix, var.project_suffix)
+  node2_tgw_multi_node_workload_subnet = format("%s-snet-node2-mnic-workload-%s", var.project_prefix, var.project_suffix)
 
   custom_tags = {
     Owner        = var.owner_tag
@@ -99,7 +99,7 @@ module "vpc__multi_node_new_subnets" {
   aws_owner          = var.owner_tag
   aws_region         = var.f5xc_aws_region
   aws_az_name        = var.f5xc_aws_az
-  aws_vpc_name       = format("%s-aws-vpc-s-n-existing-sn-%s", var.project_prefix, var.project_suffix)
+  aws_vpc_name       = format("%s-vpc-mn-snic-exists-vpc-and-nsnet-%s", var.project_prefix, var.project_suffix)
   aws_vpc_cidr_block = "172.16.40.0/22"
   custom_tags        = local.custom_tags
   providers          = {
