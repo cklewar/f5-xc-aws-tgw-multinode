@@ -52,7 +52,7 @@ variable "f5xc_aws_az" {
 
 variable "f5xc_aws_tgw_owner" {
   type    = string
-  default = "c.klewar@f5.com"
+  default = "c.klewar@ves.io"
 }
 
 variable "owner_tag" {
